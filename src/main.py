@@ -28,6 +28,7 @@ import sys, os
 from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebKitWidgets import QWebView
+from multiprocessing import Process
 
 
 class PWebView(QWebView):
@@ -40,7 +41,7 @@ class PWebView(QWebView):
         self.setWindowTitle(self.title())
 
 
-def main():
+def frontend():
     app = QApplication(sys.argv)
     window = QMainWindow()
     web = PWebView()
@@ -52,6 +53,12 @@ def main():
     web.load(QUrl(QUrl.fromLocalFile(file_path)))
     sys.exit(app.exec_())
 
+def backend():
+    pass
+
 
 if __name__ == '__main__':
-    main()
+    pf = Process(target=frontend)
+    pb = Process(target=backend)
+    pf.start()
+    pb.start()
